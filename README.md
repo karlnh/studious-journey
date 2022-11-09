@@ -1,8 +1,10 @@
 # Password Generator
 
+[Link to the deployed application.](https://karlnh.github.io/studious-journey/)
+
 ## Description
 
-The project was motivated by a need to explore and learn about how user input might interact with the functionality of a website. Specifically, how to prompt the user to interact with the site and transform their interactions into a useable product. A password generator is perfect for this by requiring the user to specify password length and content.
+This project lets a user generate a password following their specifications. The project was motivated by a need to explore and learn about how user input might interact with the functionality of a website. Specifically, how to prompt the user to interact with the site and transform their interactions into a useable product. A password generator is perfect for this by requiring the user to specify password length and content.
 
 ## Usage
 
