@@ -2,7 +2,7 @@
 
 const lowerChar = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 const upperChar = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-const numChar = [0,1,2,3,4,5,6,7,8,9];
+const numChar = ['0','1','2','3','4','5','6','7','8','9'];
 const specChar = ["!","?"];
 
 function randomChar(array) { // Selects a random character from a given array
@@ -11,7 +11,6 @@ function randomChar(array) { // Selects a random character from a given array
   return array[Math.floor(Math.random() * (max - min) + min)];
   // Thank you MDN doc on Math.random()!
 }
-
 
 function generatePassword() {
 
@@ -34,50 +33,49 @@ function generatePassword() {
   }
 
   // Here they select which character sets they want.
-  let concatArray = [];
-  let selectedString = "";
   lowerT = (window.confirm("Do you want lowercase characters?"));
   upperT = (window.confirm("Do you want uppercase characters?"));
   numT = (window.confirm("Do you want numerical characters?"));
   specT = (window.confirm("Do you want special characters?"));
 
+  // Testing for which character sets are chosen by the user
+  concatArray = []; // Will contain all the character sets
   if (lowerT) { // if any of the following are true,
-    concatArray.concat(lowerChar); // concat the corresponding character set to concatArray.
-    console.log("lower");
+    concatArray = concatArray.concat(lowerChar); // concat the corresponding character set to concatArray.
+    console.log("lower set chosen");
   } if (upperT) {
-    concatArray.concat(upperChar);
-    console.log("upper");
+    concatArray = concatArray.concat(upperChar);
+    console.log("upper set chosen");
   } if (numT) {
-    concatArray.concat(numChar);
-    console.log("num");
+    concatArray = concatArray.concat(numChar);
+    console.log("num set chosen");
   } if (specT) {
-    concatArray.concat(specChar);
-    console.log("spec");
+    concatArray = concatArray.concat(specChar);
+    console.log("spec set chosen");
   } if (!lowerT && !upperT && !numT && !specT) {
     window.alert("No character sets selected. No password can be generated");
     console.log("failed")
     generatePassword();
   }
-  
-  
-  
-  
-  
 
-  // Here is the password generation:
-    // selectedArrays = [lowerChar,upperChar,numChar,specChar]?
-    // password = []
-    // If i !== passLength,
-      // For i in password[i],
-      // Decide which character set to pull from:
-        // 
-      // Then randomChar() from that array,
-      // And append it to password at [i].
-      // i++.
-    // Else, if i === passLength,
-      // We're done making the password.
-// Return password.
+  console.log("possible characters are: " + concatArray);
+  
+  // Selects a random character from a given array
+  function randomChar(array) { 
+    let min = Math.ceil(1);
+    let max = Math.floor(array.length);
+    charString = array[Math.floor(Math.random() * (max - min) + min)];
+    return Array(charString); // returns arrayed version of the random character
+    // Thank you MDN doc on Math.random()!
+  }
 
+  let passArray = []; //will contain the password!
+
+  //add random chars from concatarray until passlength is reached
+  for (let i = 0; i < passLength; i++) {
+      passArray = passArray.concat(randomChar(concatArray)); 
+    }  
+  console.log(passArray);
 }
 
 // Get references to the #generate element in html
