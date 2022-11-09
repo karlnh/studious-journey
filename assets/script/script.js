@@ -3,7 +3,7 @@
 const lowerChar = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 const upperChar = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 const numChar = ['0','1','2','3','4','5','6','7','8','9'];
-const specChar = ["!","?"];
+const specChar = ['!','@','#','$','%','^','&','*','(',')','-','_','=','+','[',']','{','}','\\','|','`','~'];
 
 function randomChar(array) { // Selects a random character from a given array
   min = Math.ceil(1);
@@ -14,7 +14,7 @@ function randomChar(array) { // Selects a random character from a given array
 
 function generatePassword() {
 
-  // series of password criteria prompts
+  // Password length
   passLength = window.prompt("Choose a password length that is at least 8 characters long and no longer than 128 characters.", "8");
   
   if (passLength < 8 || passLength > 128) {
@@ -25,40 +25,33 @@ function generatePassword() {
   } else if (passLength === null) { // if they click cancel
     console.log("Password generation cancelled.")
     window.alert('You must enter a password length. Please click "Generate Password" to try again.');
-    return null;
+    return passLength;
 
-  } else { // password length selected
+  } else {
     console.log(passLength);
     window.alert("Your password will be " + passLength + " characters long.")
   }
 
-  // Here they select which character sets they want.
+  // User selects which character sets they want
   lowerT = (window.confirm("Do you want lowercase characters?"));
   upperT = (window.confirm("Do you want uppercase characters?"));
   numT = (window.confirm("Do you want numerical characters?"));
   specT = (window.confirm("Do you want special characters?"));
 
   // Testing for which character sets are chosen by the user
-  concatArray = []; // Will contain all the character sets
+  concatArray = []; // Will contain selected sets
   if (lowerT) { // if any of the following are true,
-    concatArray = concatArray.concat(lowerChar); // concat the corresponding character set to concatArray.
-    console.log("lower set chosen");
+    concatArray = concatArray.concat(lowerChar);
   } if (upperT) {
     concatArray = concatArray.concat(upperChar);
-    console.log("upper set chosen");
   } if (numT) {
     concatArray = concatArray.concat(numChar);
-    console.log("num set chosen");
   } if (specT) {
     concatArray = concatArray.concat(specChar);
-    console.log("spec set chosen");
-  } if (!lowerT && !upperT && !numT && !specT) {
-    window.alert("No character sets selected. No password can be generated");
+  } if (!lowerT && !upperT && !numT && !specT) { // if no sets are selected
+    window.alert("No character sets selected. No password can be generated. Please try again.");
     console.log("failed")
-    generatePassword();
   }
-
-  console.log("possible characters are: " + concatArray);
   
   // Selects a random character from a given array
   function randomChar(array) { 
@@ -69,13 +62,13 @@ function generatePassword() {
     // Thank you MDN doc on Math.random()!
   }
 
-  let passArray = []; //will contain the password!
+  //add random characterss from concatArray until passLength is reached
+  let passString = "";
 
-  //add random chars from concatarray until passlength is reached
   for (let i = 0; i < passLength; i++) {
-      passArray = passArray.concat(randomChar(concatArray)); 
+      passString = passString + randomChar(concatArray); //because of type coercion, randomChar will simply turn into a string.
     }  
-  console.log(passArray);
+  return passString;
 }
 
 // Get references to the #generate element in html
@@ -87,7 +80,6 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
-
 }
 
 // Add event listener to generate button
