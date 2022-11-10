@@ -5,13 +5,6 @@ const upperChar = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','
 const numChar = ['0','1','2','3','4','5','6','7','8','9'];
 const specChar = ['!','@','#','$','%','^','&','*','(',')','-','_','=','+','[',']','{','}','\\','|','`','~'];
 
-function randomChar(array) { // Selects a random character from a given array
-  min = Math.ceil(1);
-  max = Math.floor(array.length);
-  return array[Math.floor(Math.random() * (max - min) + min)];
-  // Thank you MDN doc on Math.random()!
-}
-
 function generatePassword() {
 
   // Password length
@@ -22,10 +15,10 @@ function generatePassword() {
     window.alert('You have entered a password length outside the acceptable range. Please click "Generate Password" to try again.');
     return null;
 
-  } else if (passLength === null) { // if they click cancel
+  } else if (passLength === null || isNaN(passLength)) { // WHY ISNT THIS WORKING???????????????????????????
     console.log("Password generation cancelled.")
-    window.alert('You must enter a password length. Please click "Generate Password" to try again.');
-    return passLength;
+    window.alert('You must enter a proper password length. Please click "Generate Password" to try again.');
+    return "";
 
   } else {
     console.log(passLength);
@@ -40,36 +33,40 @@ function generatePassword() {
 
   // Testing for which character sets are chosen by the user
   concatArray = []; // Will contain selected sets
-  if (lowerT) { // if any of the following are true,
+  if (lowerT) {
     concatArray = concatArray.concat(lowerChar);
-  } if (upperT) {
+   }
+  if (upperT) {
     concatArray = concatArray.concat(upperChar);
-  } if (numT) {
+   }
+  if (numT) {
     concatArray = concatArray.concat(numChar);
-  } if (specT) {
+   }
+  if (specT) {
     concatArray = concatArray.concat(specChar);
-  } if (!lowerT && !upperT && !numT && !specT) { // if no sets are selected
+     // if no sets are selected
+   }
+  if (!lowerT && !upperT && !numT && !specT) {
     window.alert("No character sets selected. No password can be generated. Please try again.");
-    console.log("failed")
-  }
-  
+    console.log("failed");
+   }
+
   // Selects a random character from a given array
   function randomChar(array) { 
-    let min = Math.ceil(1);
-    let max = Math.floor(array.length);
-    charString = array[Math.floor(Math.random() * (max - min) + min)];
+    charString = array[Math.floor(Math.random() * array.length)]; //random array position
     return Array(charString); // returns arrayed version of the random character
-    // Thank you MDN doc on Math.random()!
   }
 
-  //add random characterss from concatArray until passLength is reached
+  //add random characters from concatArray until passLength is reached
   let passString = "";
 
   for (let i = 0; i < passLength; i++) {
-      passString = passString + randomChar(concatArray); //because of type coercion, randomChar will simply turn into a string.
+      passString = passString + randomChar(concatArray); //because of type coercion, randomChar will simply turn into a string, rather than staying an index.
     }  
   return passString;
 }
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
 // Get references to the #generate element in html
 var generateBtn = document.querySelector("#generate");
